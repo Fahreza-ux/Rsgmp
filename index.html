@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSGM FKG Universitas Prof. Dr. Moestopo (Beragama)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6a0dad;
+            --primary-light: #8a2be2;
+            --primary-dark: #4b0082;
+            --secondary: #9370db;
+            --accent: #da70d6;
+            --light: #f8f5ff;
+            --dark: #333333;
+            --gray: #6c757d;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Loading Screen Ungu */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        #loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-logo {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .loading-logo .logo-circle {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-light), var(--accent));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: pulse 2s infinite, rotate 4s infinite linear;
+        }
+
+        .loading-logo .logo-circle i {
+            font-size: 50px;
+            color: white;
+        }
+
+        .loading-text {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: white;
+            margin-top: 15px;
+            letter-spacing: 1px;
+        }
+
+        .loading-bar {
+            width: 200px;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .loading-progress {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(to right, var(--accent), white);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.9; }
+            50% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.9; }
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Header */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .top-bar {
+            background-color: var(--primary-dark);
+            color: white;
+            padding: 8px 0;
+            font-size: 0.9rem;
+        }
+
+        .top-bar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .contact-info span {
+            margin-right: 20px;
+        }
+
+        .contact-info i {
+            margin-right: 5px;
+        }
+
+        .main-header {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--dark);
+        }
+
+        .logo-img {
+            width: 60px;
+            height: 60px;
+            margin-right: 15px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            line-height: 1.2;
+        }
+
+        .logo-text p {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            margin-left: 25px;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            font-size: 1rem;
+            padding: 5px 0;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary);
+        }
+
+        .nav-menu a.active {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .nav-menu a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+        }
+
+        /* Hero Section dengan gaya RS Sari Asih */
+        .hero {
+            background: linear-gradient(rgba(106, 13, 173, 0.85), rgba(74, 0, 130, 0.9)), url('https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 20px;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--accent);
+            color: white;
+            padding: 14px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background-color: #c154c1;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Stats Section seperti RS Sari Asih */
+        .stats-section {
+            background-color: var(--light);
+            padding: 60px 20px;
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 30px 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+
+        .stat-text {
+            font-size: 1.1rem;
+            color: var(--dark);
+            font-weight: 500;
+        }
+
+        /* Services Section */
+        .services-section {
+            padding: 80px 20px;
+            background-color: white;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: var(--primary-dark);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--accent);
+        }
+
+        .section-title p {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 15px auto 0;
+        }
+
+        .services-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: var(--transition);
+            border-top: 4px solid var(--primary);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            border-top-color: var(--accent);
+        }
+
+        .service-icon {
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary-light), var(--secondary));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 4rem;
+        }
+
+        .service-content {
+            padding: 25px;
+        }
+
+        .service-content h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--primary-dark);
+        }
+
+        /* News Section seperti RS Sari Asih */
+        .news-section {
+            padding: 80px 20px;
+            background-color: var(--light);
+        }
+
+        .news-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .news-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .news-image {
+            height: 200px;
+            background-color: #ddd;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .news-content {
+            padding: 20px;
+        }
+
+        .news-content h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--primary-dark);
+        }
+
+        .news-content p {
+            color: var(--gray);
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .news-date {
+            font-size: 0.85rem;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        /* About Section */
+        .about-section {
+            padding: 80px 20px;
+            background-color: white;
+        }
+
+        .about-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--primary-dark);
+        }
+
+        .about-text p {
+            margin-bottom: 15px;
+        }
+
+        .about-image {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-dark);
+            color: white;
+            padding: 60px 20px 30px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            color: var(--accent);
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--accent);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+            padding-left: 5px;
+        }
+
+        .contact-list li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .contact-list i {
+            margin-right: 10px;
+            color: var(--accent);
+            margin-top: 5px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        /* Page Transition */
+        .page-content {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .page-content.loaded {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background-color: white;
+                flex-direction: column;
+                padding-top: 80px;
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+                transition: right 0.3s ease;
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .nav-menu li {
+                margin: 0;
+                width: 100%;
+            }
+
+            .nav-menu a {
+                display: block;
+                padding: 15px 30px;
+                border-bottom: 1px solid #f0f0f0;
+            }
+
+            .nav-menu a.active::after {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero h2 {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .top-bar-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .contact-info span {
+                display: block;
+                margin-right: 0;
+                margin-bottom: 5px;
+            }
+
+            .hero h2 {
+                font-size: 1.8rem;
+            }
+
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+
+            section {
+                padding: 60px 20px;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen Ungu -->
+    <div id="loading-screen">
+        <div class="loading-logo">
+            <div class="logo-circle">
+                <i class="fas fa-tooth"></i>
+            </div>
+        </div>
+        <div class="loading-text">RSGM Moestopo - Memuat...</div>
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="top-bar">
+            <div class="top-bar-content">
+                <div class="contact-info">
+                    <span><i class="fas fa-phone"></i> (021) 1234-5678</span>
+                    <span><i class="fas fa-envelope"></i> info@rsgm.moestopo.ac.id</span>
+                </div>
+                <div class="social-media">
+                    <span><i class="fab fa-facebook"></i></span>
+                    <span><i class="fab fa-instagram"></i></span>
+                    <span><i class="fab fa-youtube"></i></span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="main-header">
+            <div class="logo-container">
+                <a href="#" class="logo">
+                    <div class="logo-img">
+                        <i class="fas fa-tooth"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>RSGM Moestopo</h1>
+                        <p>Fakultas Kedokteran Gigi Universitas Prof. Dr. Moestopo</p>
+                    </div>
+                </a>
+            </div>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#" class="active">Beranda</a></li>
+                <li><a href="#about">Tentang Kami</a></li>
+                <li><a href="#services">Layanan</a></li>
+                <li><a href="#stats">Statistik</a></li>
+                <li><a href="#news">Informasi</a></li>
+                <li><a href="#contact">Kontak</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="page-content" id="pageContent">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h2>Rumah Sakit Gigi dan Mulut Universitas Moestopo</h2>
+                <p>Menyediakan pelayanan kesehatan gigi dan mulut yang komprehensif dengan standar tinggi, didukung oleh tenaga profesional dan fasilitas modern.</p>
+                <a href="#appointment" class="cta-button">Buat Janji Temu Online</a>
+            </div>
+        </section>
+
+        <!-- Stats Section (seperti RS Sari Asih) -->
+        <section class="stats-section" id="stats">
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-number">25+</div>
+                    <div class="stat-text">Tahun Pengalaman</div>
+                </div>
+                 <div class="stat-item">
+                    <div class="stat-number">15+</div>
+                    <div class="stat-text">Spesialis Gigi</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-text">Tenaga Medis</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">10.000+</div>
+                    <div class="stat-text">Pasien Per Tahun</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section class="services-section" id="services">
+            <div class="section-title">
+                <h2>Layanan Spesialis</h2>
+                <p>Kami menyediakan berbagai layanan kesehatan gigi dan mulut dengan teknologi terkini dan dokter spesialis berpengalaman.</p>
+            </div>
+            
+            <div class="services-container">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-tooth"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Konservasi Gigi</h3>
+                        <p>Perawatan gigi berlubang, tambal gigi, perawatan saluran akar, dan restorasi gigi dengan teknologi modern.</p>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-teeth"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Bedah Mulut & Maksilofasial</h3>
+                        <p>Pencabutan gigi bungsu, operasi kista rongga mulut, dan bedah rekonstruksi wajah.</p>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-smile"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Ortodonsia</h3>
+                        <p>Perawatan kawat gigi (behel) konvensional dan invisalign untuk merapikan susunan gigi.</p>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-toothbrush"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Periodonsia</h3>
+                        <p>Perawatan penyakit gusi, scaling, root planing, dan bedah periodontal lanjutan.</p>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-baby"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Kedokteran Gigi Anak</h3>
+                        <p>Perawatan gigi susu, pencegahan karies, dan edukasi kesehatan gigi untuk anak-anak.</p>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-teeth-open"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Prostodonsia</h3>
+                        <p>Pembuatan gigi tiruan lengkap, sebagian, crown, bridge, dan implant gigi.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+<!-- About Section -->
+        <section class="about-section" id="about">
+            <div class="section-title">
+                <h2>Sekilas Tentang RSGM Moestopo</h2>
+                <p>RSGM Moestopo merupakan rumah sakit gigi dan mulut pendidikan yang terintegrasi dengan Fakultas Kedokteran Gigi Universitas Prof. Dr. Moestopo.</p>
+            </div>
+            
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Melayani dengan Kompetensi dan Kepedulian</h3>
+                    <p>Sebagai rumah sakit pendidikan, kami tidak hanya memberikan pelayanan kesehatan gigi dan mulut terbaik, tetapi juga menjadi tempat pembelajaran bagi calon dokter gigi profesional.</p>
+                    <p>Kami berkomitmen untuk memberikan pelayanan yang bermutu tinggi dengan harga terjangkau, didukung oleh teknologi terkini dan tenaga medis yang kompeten di bidangnya.</p>
+                    <p>Visi kami adalah menjadi pusat rujukan kesehatan gigi dan mulut terdepan yang mengintegrasikan pendidikan, penelitian, dan pengabdian masyarakat.</p>
+                    <a href="#contact" class="cta-button">Hubungi Kami</a>
+                </div>
+                
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="RSGM Moestopo">
+                </div>
+            </div>
+        </section>
+
+        <!-- News Section (seperti RS Sari Asih) -->
+        <section class="news-section" id="news">
+            <div class="section-title">
+                <h2>Informasi Terkini</h2>
+                <p>Artikel dan berita terbaru seputar kesehatan gigi dan mulut dari RSGM Moestopo.</p>
+            </div>
+            
+            <div class="news-container">
+                <div class="news-card">
+                    <div class="news-image" style="background-image: url('https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="news-content">
+                        <div class="news-date">30 Januari 2026</div>
+                        <h3>Perawatan Ortodonti di Masa Pandemi</h3>
+                        <p>Bagaimana menjaga perawatan kawat gigi selama pandemi dan tips menjaga kebersihan alat ortodonti.</p>
+                    </div>
+                </div>
+                
+                <div class="news-card">
+                    <div class="news-image" style="background-image: url('https://images.unsplash.com/photo-1551601651-2a8555f1a136?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="news-content">
+                        <div class="news-date">28 Januari 2026</div>
+                        <h3>Teknologi Digital dalam Kedokteran Gigi</h3>
+                        <p>Pemanfaatan scan digital, CAD/CAM, dan printing 3D untuk perawatan gigi yang lebih presisi.</p>
+                    </div>
+                </div>
+                
+                <div class="news-card">
+                    <div class="news-image" style="background-image: url('https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="news-content">
+                        <div class="news-date">25 Januari 2026</div>
+                        <h3>Pentingnya Pemeriksaan Gigi Anak Sejak Dini</h3>
+                        <p>Kapan waktu yang tepat untuk pertama kali membawa anak ke dokter gigi dan apa yang perlu dipersiapkan.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="about-section" id="contact" style="background-color: var(--light);">
+            <div class="section-title">
+                <h2>Hubungi Kami</h2>
+                <p>Untuk informasi lebih lanjut atau membuat janji temu, silakan hubungi kami</p>
+            </div>
+            
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Informasi Kontak</h3>
+                    <p>RSGM Fakultas Kedokteran Gigi Universitas Prof. Dr. Moestopo (Beragama)</p>
+                    
+                    <ul class="contact-list">
+                        <li><i class="fas fa-map-marker-alt"></i> <span>Jl. Hang Lekir I/8, Senayan, Jakarta Selatan 12120</span></li>
+                        <li><i class="fas fa-phone"></i> <span>(021) 1234-5678</span></li>
+                        <li><i class="fas fa-envelope"></i> <span>info@rsgm.moestopo.ac.id</span></li>
+                        <li><i class="fas fa-clock"></i> <span>Senin - Jumat: 08.00 - 16.00<br>Sabtu: 08.00 - 13.00</span></li>
+                    </ul>
+                </div>
+ <div class="about-text">
+                    <h3>Buat Janji Temu Online</h3>
+                    <p>Untuk membuat janji temu, silakan isi formulir di bawah ini atau hubungi nomor telepon kami.</p>
+                    
+                    <form id="appointmentForm" style="margin-top: 20px;">
+                        <div style="margin-bottom: 15px;">
+                            <input type="text" placeholder="Nama Lengkap" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-family: 'Poppins', sans-serif;">
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <input type="tel" placeholder="Nomor Telepon" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-family: 'Poppins', sans-serif;">
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <input type="date" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-family: 'Poppins', sans-serif;">
+                        </div>
+                        <button type="submit" class="cta-button" style="width: 100%; background-color: var(--primary);">Kirim Permohonan Janji Temu</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>RSGM Moestopo</h3>
+                <p>Rumah Sakit Gigi dan Mulut Fakultas Kedokteran Gigi Universitas Prof. Dr. Moestopo (Beragama). Memberikan pelayanan kesehatan gigi dan mulut yang berkualitas dengan harga terjangkau.</p>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Link Cepat</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Beranda</a></li>
+                    <li><a href="#about">Tentang Kami</a></li>
+                    <li><a href="#services">Layanan</a></li>
+                    <li><a href="#stats">Statistik</a></li>
+                    <li><a href="#news">Informasi</a></li>
+                    <li><a href="#contact">Kontak</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Layanan</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Konservasi Gigi</a></li>
+                    <li><a href="#">Bedah Mulut</a></li>
+                    <li><a href="#">Ortodonsia</a></li>
+                    <li><a href="#">Kedokteran Gigi Anak</a></li>
+                    <li><a href="#">Gigi Tiruan</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Kontak</h3>
+                <ul class="contact-list">
+                    <li><i class="fas fa-map-marker-alt"></i> <span>Jl. Hang Lekir I/8, Senayan, Jakarta Selatan</span></li>
+                    <li><i class="fas fa-phone"></i> <span>(021) 1234-5678</span></li>
+                    <li><i class="fas fa-envelope"></i> <span>info@rsgm.moestopo.ac.id</span></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2026 RSGM FKG Universitas Prof. Dr. Moestopo (Beragama). Semua hak dilindungi.</p>
+        </div>
+    </footer>
+ <script>
+        // Loading Screen dengan tema ungu
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingScreen = document.getElementById('loading-screen');
+            const loadingProgress = document.querySelector('.loading-progress');
+            const pageContent = document.getElementById('pageContent');
+            
+            // Simulate loading progress
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress > 100) progress = 100;
+                loadingProgress.style.width = `${progress}%`;
+                
+                if (progress === 100) {
+                    clearInterval(progressInterval);
+                    
+                    // Hide loading screen and show content with animation
+                    setTimeout(() => {
+                        loadingScreen.classList.add('hidden');
+                        
+                        // Show page content with fade-in animation
+                        setTimeout(() => {
+                            pageContent.classList.add('loaded');
+                        }, 100);
+                    }, 500);
+                }
+            }, 150);
+            
+            // Mobile menu toggle
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const navMenu = document.getElementById('navMenu');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+                const icon = mobileMenuBtn.querySelector('i');
+                if (navMenu.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+            
+            // Close mobile menu when clicking a link
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    navMenu.classList.remove('active');
+                    mobileMenuBtn.querySelector('i').classList.remove('fa-times');
+                    mobileMenuBtn.querySelector('i').classList.add('fa-bars');
+                    
+                    // Smooth scroll to section
+                    const targetId = this.getAttribute('href');
+                    if (targetId && targetId.startsWith('#')) {
+                        const targetElement = document.querySelector(targetId);
+                        if (targetElement) {
+                            window.scrollTo({
+                                top: targetElement.offsetTop - 100,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                });
+            });
+            
+            // Page transition for navigation
+            const allLinks = document.querySelectorAll('a');
+            allLinks.forEach(link => {
+                if (link.href && !link.href.includes('#') && link.href !== window.location.href) {
+                    link.addEventListener('click', function(e) {
+                        // Only apply for internal links
+                        if (this.href.includes(window.location.origin)) {
+                            e.preventDefault();
+                            
+                            // Show loading screen
+                            loadingScreen.classList.remove('hidden');
+                            loadingProgress.style.width = '0%';
+                            pageContent.classList.remove('loaded');
+                            
+                            // Simulate loading new page
+                            setTimeout(() => {
+                                window.location.href = this.href;
+                            }, 1500);
+                        }
+                    });
+                }
+            });
+            
+            // Form submission
+            const appointmentForm = document.getElementById('appointmentForm');
+            if (appointmentForm) {
+                appointmentForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('Terima kasih! Permohonan janji temu Anda telah dikirim. Kami akan menghubungi Anda untuk konfirmasi dalam 1x24 jam.');
+                    this.reset();
+                });
+            }
+
+   // Animate stats when they come into view
+            const stats = document.querySelectorAll('.stat-number');
+            const observerOptions = {
+                threshold: 0.5,
+                rootMargin: '0px 0px -100px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const stat = entry.target;
+                        const targetValue = parseInt(stat.textContent);
+                        let currentValue = 0;
+                        const increment = targetValue / 50;
+                        const timer = setInterval(() => {
+                            currentValue += increment;
+                            if (currentValue >= targetValue) {
+                                currentValue = targetValue;
+                                clearInterval(timer);
+                            }
+                            stat.textContent = Math.floor(currentValue) + (stat.textContent.includes('+') ? '+' : '');
+                        }, 30);
+                        observer.unobserve(stat);
+                    }
+                });
+            }, observerOptions);
+            
+            stats.forEach(stat => {
+                observer.observe(stat);
+            });
+        });
+    </script>
+</body>
+</html>
